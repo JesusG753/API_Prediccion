@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción de Cáncer de Mama</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        input {
+            padding: 8px;
+            width: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Predicción de Cáncer de Mama</h1>
+    <form method="POST" action="{% url 'predict' %}">
+        {% csrf_token %}
+        <label>BI-RADS (1-5):</label>
+        <input type="number" name="BI-RADS" min="1" max="5" required><br>
+        <label>Edad:</label>
+        <input type="number" name="Age" required><br>
+        <label>Forma (1-4):</label>
+        <input type="number" name="Shape" min="1" max="4" required><br>
+        <label>Margen (1-5):</label>
+        <input type="number" name="Margin" min="1" max="5" required><br>
+        <label>Densidad (1-4):</label>
+        <input type="number" name="Density" min="1" max="4" required><br>
+        <button type="submit">Predecir</button>
+    </form>
+    {% if result %}
+        <p id="result">Predicción: {{ result.prediction }} (Probabilidades: Benigno={{ result.prob_benigno|floatformat:2 }}, Maligno={{ result.prob_maligno|floatformat:2 }})</p>
+    {% endif %}
+    {% if error %}
+        <p class="error">Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
