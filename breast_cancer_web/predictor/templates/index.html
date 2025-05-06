@@ -27,7 +27,7 @@
             margin: 10px 0;
             font-weight: bold;
         }
-        input {
+        input, select {
             padding: 8px;
             width: 100px;
             border: 1px solid #ccc;
@@ -56,6 +56,13 @@
         .error {
             color: red;
             text-align: center;
+            margin-top: 20px;
+        }
+        .note {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -73,13 +80,19 @@
         <input type="number" name="Margin" min="1" max="5" required><br>
         <label>Densidad (1-4):</label>
         <input type="number" name="Density" min="1" max="4" required><br>
+        <label>Modelo:</label>
+        <select name="model" required>
+            <option value="knn">KNN</option>
+            <option value="svm">SVM</option>
+        </select><br>
         <button type="submit">Predecir</button>
     </form>
     {% if result %}
-        <p id="result">Predicción: {{ result.prediction }} (Probabilidades: Benigno={{ result.prob_benigno|floatformat:2 }}, Maligno={{ result.prob_maligno|floatformat:2 }})</p>
+        <p id="result">Predicción (Modelo: {{ result.selected_model|upper }}): {{ result.prediction }} (Probabilidades: Benigno={{ result.prob_benigno|floatformat:2 }}, Maligno={{ result.prob_maligno|floatformat:2 }})</p>
     {% endif %}
     {% if error %}
         <p class="error">Error: {{ error }}</p>
     {% endif %}
+    <p class="note">Nota: Asegúrate de que el servidor de predicción (Flask API) esté ejecutándose en http://localhost:8001 antes de enviar el formulario.</p>
 </body>
 </html>
