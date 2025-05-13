@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicción de Riesgo de Hipertensión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 8px;
+            width: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .note {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Predicción de Riesgo de Hipertensión</h1>
+    <form method="POST" action="{% url 'predict' %}">
+        {% csrf_token %}
+        <label>Masa corporal:</label>
+        <input type="number" name="masa_corporal" step="any" required><br>
+        <label>Tension Arterial:</label>
+        <input type="number" name="tension_arterial" step="any" required><br>
+        <label>Peso:</label>
+        <input type="number" name="peso" step="any" required><br>
+        <label>Actividad total:</label>
+        <input type="number" name="actividad_total" step="any" required><br>
+        <label>Medida Cintura:</label>
+        <input type="number" name="medida_cintura" step="any" required><br>
+        <label>Estatura:</label>
+        <input type="number" name="estatura" step="any" required><br>
+        <label>Edad:</label>
+        <input type="number" name="edad" step="any" required><br>
+        <label>Valor Insulina:</label>
+        <input type="number" name="valor_insulina" step="any" required><br>
+        <label>Horas de sueño:</label>
+        <input type="number" name="sueno_horas" step="any" required><br>
+        <label>Valor Colesterol ldl:</label>
+        <input type="number" name="valor_colesterol_ldl" step="any" required><br>
+        <button type="submit">Predecir</button>
+    </form>
+    {% if result %}
+        <p id="result">Predicción: {{ result.prediction }} (Probabilidades: Benigno={{ result.prob_benigno|floatformat:2 }}, Maligno={{ result.prob_maligno|floatformat:2 }})</p>
+    {% endif %}
+    {% if error %}
+        <p class="error">Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
