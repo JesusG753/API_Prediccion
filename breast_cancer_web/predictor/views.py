@@ -10,19 +10,45 @@ def predict(request):
     if request.method == 'POST':
         try:
             form_data = {
-                'BIRADS': int(request.POST['BI-RADS']),
-                'Age': int(request.POST['Age']),
-                'Shape': int(request.POST['Shape']),
-                'Margin': int(request.POST['Margin']),
-                'Density': int(request.POST['Density'])
+                'sexo': int(request.POST['sexo']),
+                'edad': int(request.POST['edad']),
+                'concentracion_hemoglobina': float(request.POST['concentracion_hemoglobina']),
+                'temperatura_ambiente': float(request.POST['temperatura_ambiente']),
+                'valor_acido_urico': float(request.POST['valor_acido_urico']),
+                'valor_albumina': float(request.POST['valor_albumina']),
+                'valor_colesterol_hdl': float(request.POST['valor_colesterol_hdl']),
+                'valor_colesterol_ldl': float(request.POST['valor_colesterol_ldl']),
+                'valor_colesterol_total': float(request.POST['valor_colesterol_total']),
+                'valor_creatina': float(request.POST[ 'valor_creatina']),
+                'resultado_glucosa': float(request.POST['resultado_glucosa']),
+                'valor_insulina': float(request.POST['valor_insulina']),
+                'valor_trigliceridos': float(request.POST['valor_trigliceridos']),
+                'resultado_glucosa_promedio': float(request.POST['resultado_glucosa_promedio']),
+                'valor_hemoglobina_glucosilada': float(request.POST['valor_hemoglobina_glucosilada']),
+                'valor_ferritina': float(request.POST['valor_ferritina']),
+                'valor_folato': float(request.POST['valor_folato']),
+                'valor_homocisteina': float(request.POST['valor_homocisteina']),
+                'valor_proteinac_reactiva': float(request.POST['valor_proteinac_reactiva']),
+                'valor_transferrina': float(request.POST['valor_transferrina']),
+                'valor_vitamina_bdoce': float(request.POST['valor_vitamina_bdoce']),
+                'valor_vitamina_d': float(request.POST['valor_vitamina_d']),
+                'peso': float(request.POST['peso']),
+                'estatura': float(request.POST['estatura']),
+                'medida_cintura': float(request.POST['medida_cintura']),
+                'segundamedicion_peso': float(request.POST['segundamedicion_peso']),
+                'segundamedicion_estatura': float(request.POST['segundamedicion_estatura']),
+                'distancia_rodilla_talon': float(request.POST['distancia_rodilla_talon']),
+                'circunferencia_de_la_pantorrilla': float(request.POST['circunferencia_de_la_pantorrilla']),
+                'segundamedicion_cintura': float(request.POST['segundamedicion_cintura']),
+                'tension_arterial': float(request.POST['tension_arterial']),
+                'sueno_horas': float(request.POST['sueno_horas']),
+                'masa_corporal': float(request.POST['masa_corporal']),
+                'actividad_total': float(request.POST['actividad_total'])
             }
             logger.debug(f"Datos del formulario: {form_data}")
 
-            model_choice = request.POST.get('model', 'knn')  # Default a 'knn'
-            logger.debug(f"Modelo seleccionado: {model_choice}")
-
             headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
-            api_url = f'http://localhost:8001/predict?model={model_choice}'
+            api_url = f'http://localhost:8001/predict'
             logger.debug(f"URL de la API: {api_url}")
             logger.debug(f"Datos enviados: {json.dumps([form_data])}")
 
@@ -47,7 +73,6 @@ def predict(request):
                     'prediction': prediction,
                     'prob_benigno': prob_benigno,
                     'prob_maligno': prob_maligno,
-                    'selected_model': model_choice
                 }
             })
 
